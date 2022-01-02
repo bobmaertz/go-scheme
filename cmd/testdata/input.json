@@ -9,6 +9,7 @@
     "price": 12.5,
     "tags": [
         "home",
-        "green"
+        "green", 
+        2
     ]
 }

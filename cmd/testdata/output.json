@@ -1,0 +1,99 @@
+{
+	"definitions": {},
+	"$schema": "http://json-schema.org/draft-07/schema#", 
+	"$id": "https://example.com/object1641146745.json", 
+	"title": "Root", 
+	"type": "object",
+	"required": [
+		"checked",
+		"dimensions",
+		"id",
+		"name",
+		"price",
+		"tags"
+	],
+	"properties": {
+		"checked": {
+			"$id": "#root/checked", 
+			"title": "Checked", 
+			"type": "boolean",
+			"examples": [
+				false
+			],
+			"default": true
+		},
+		"dimensions": {
+			"$id": "#root/dimensions", 
+			"title": "Dimensions", 
+			"type": "object",
+			"required": [
+				"width",
+				"height"
+			],
+			"properties": {
+				"width": {
+					"$id": "#root/dimensions/width", 
+					"title": "Width", 
+					"type": "integer",
+					"examples": [
+						5
+					],
+					"default": 0
+				},
+				"height": {
+					"$id": "#root/dimensions/height", 
+					"title": "Height", 
+					"type": "integer",
+					"examples": [
+						10
+					],
+					"default": 0
+				}
+			}
+		},
+		"id": {
+			"$id": "#root/id", 
+			"title": "Id", 
+			"type": "integer",
+			"examples": [
+				1
+			],
+			"default": 0
+		},
+		"name": {
+			"$id": "#root/name", 
+			"title": "Name", 
+			"type": "string",
+			"default": "",
+			"examples": [
+				"A green door"
+			],
+			"pattern": "^.*$"
+		},
+		"price": {
+			"$id": "#root/price", 
+			"title": "Price", 
+			"type": "number",
+			"examples": [
+				12.5
+			],
+			"default": 0.0
+		},
+		"tags": {
+			"$id": "#root/tags", 
+			"title": "Tags", 
+			"type": "array",
+			"default": [],
+			"items":{
+				"$id": "#root/tags/items", 
+				"title": "Items", 
+				"type": "string",
+				"default": "",
+				"examples": [
+					"home"
+				],
+				"pattern": "^.*$"
+			}
+		}
+	}
+}
