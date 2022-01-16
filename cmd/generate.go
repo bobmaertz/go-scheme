@@ -9,6 +9,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
+//TODO: a placeholder for now, update with proper schema
 var (
 	Schema_Draft_07 = "http://json-schema.org/draft-07/schema#"
 )
@@ -16,15 +17,16 @@ var (
 // generateCmd represents the generate command
 var generateCmd = &cobra.Command{
 	Use:   "generate",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "Generate a json schema from the provided input",
+	Long:  ``,
 	RunE: func(cmd *cobra.Command, args []string) error {
-		if err := generate(); err != nil {
+		fmt.Println(args)
+		raw, err := readInput()
+		if err != nil {
+			return err
+		}
+
+		if err := generate(raw); err != nil {
 			return err
 		}
 		return nil
@@ -33,32 +35,26 @@ to quickly create a Cobra application.`,
 
 func init() {
 	rootCmd.AddCommand(generateCmd)
-
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// generateCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// generateCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
 
 type Object map[string]interface{}
 
-func (o *Object) CreateType() {
+func readInput() ([]byte, error) {
 
+	if inputFile == "" {
+		return nil, fmt.Errorf("STDIN not supported")
+	}
+
+	raw, err := ioutil.ReadFile(inputFile)
+	if err != nil {
+		return nil, fmt.Errorf("unable to read input file: %v", err)
+	}
+
+	return raw, nil
 }
 
 //generate - generates graph
-func generate() error {
-	//TODO: Need input
-
-	rawJson, err := ioutil.ReadFile("./cmd/testdata/input.json")
-	if err != nil {
-		return fmt.Errorf("unable to read input file: %v", err)
-	}
+func generate(raw []byte) error {
 
 	//Pass / in to denote that this is the root
 	output := make(map[string]interface{})
@@ -69,7 +65,7 @@ func generate() error {
 	output["type"] = "object"
 	output["required"] = []string{}
 
-	result, err := traverse("#root", rawJson)
+	result, err := traverse("#root", raw)
 	if err != nil {
 		return fmt.Errorf("unable to traverse graph: %v", err)
 	}
